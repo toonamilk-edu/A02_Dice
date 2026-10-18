@@ -1,15 +1,54 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.Random;
+import java.util.Scanner;
+
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        Random rnd = new Random();
+        Scanner in = new Scanner(System.in);
+        boolean playAgain = false;
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
-        }
+        do {
+            int die1 = rnd.nextInt(6) + 1;
+            int die2 = rnd.nextInt(6) + 1;
+            int diceRoll = die1 + die2;
+
+            System.out.println("Die 1 roll is: " + die1);
+            System.out.println("Die 2 roll is: " + die2);
+            System.out.println("Your total is: " + die1 + " + " + die2 + " = " + diceRoll);
+
+
+            if (diceRoll == 2 || diceRoll == 3 || diceRoll == 12) {
+                System.out.println("Aw crap! You crapped out! You lose.");
+            } else if (diceRoll == 7 || diceRoll == 11) {
+                System.out.println("You got a natural, you win!");
+            } else {
+                int point = diceRoll;
+                System.out.println("The point is now " + point + ".");
+                boolean done = false;
+
+                do {
+                    die1 = rnd.nextInt(6) + 1;
+                    die2 = rnd.nextInt(6) + 1;
+                    diceRoll = die1 + die2;
+
+                    System.out.println("Die 1 roll is: " + die1);
+                    System.out.println("Die 2 roll is: " + die2);
+                    System.out.println("Your total is: " + die1 + " + " + die2 + " = " + diceRoll);
+
+                    if (diceRoll == point) {
+                        System.out.println("Made point and won.");
+                        done = true;
+                    } else if (diceRoll == 7) {
+                        System.out.println("Got a seven and lost.");
+                        done = true;
+                    } else {
+                        System.out.println("Trying for point.");
+                    }
+                } while (!done);
+            }
+
+            playAgain = SafeInput.getYNConfirm(in, "Do you want to play again");
+        } while (playAgain);
     }
 }
